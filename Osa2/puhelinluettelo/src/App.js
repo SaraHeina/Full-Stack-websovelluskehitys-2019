@@ -45,6 +45,12 @@ const App = () => {
           setTimeout(() => {
             setMessage(null)
           }, 5000)
+        }).catch(error => {
+          console.log(error.response.data)
+          setErrorMessage(error.response.data.error)
+          setNewName('')
+          setNewNumber('')
+          
         })
     } else {
       if (window.confirm(`${newName} on jo luettelossa, korvataanko vanha numero uudella?`)) {
@@ -79,7 +85,7 @@ const App = () => {
   }
 
   const removePerson = (event) => {
-    const id = parseInt(event.target.id, 10)
+    const id = event.target.id
     const name = event.target.name
     if (window.confirm(`Poistetaanko ${name}?`)) {
       personService
@@ -113,7 +119,7 @@ const App = () => {
       <h1>Puhelinluettelo</h1>
 
       <Notification.Notification message={message} />
-      <Notification.Error message={errorMessage}/>
+      <Notification.Error message={errorMessage} />
 
       <Filter newFilter={newFilter}
         handleFilterChange={handleFilterChange} />

@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-type: application/json
+
+{
+   "title": "baking with friends",
+   "author": "Baker",
+   "url": "www.BakeFriends.com",
+   "likes": 12
+}

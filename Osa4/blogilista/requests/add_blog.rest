@@ -1,9 +1,75 @@
+POST http://localhost:3003/api/login
+Content-type: application/json
+
+{
+   "username": "siili",
+   "password": "salasana"
+}
+###
 POST http://localhost:3003/api/blogs
 Content-type: application/json
 
 {
    "title": "baking with friends",
    "author": "Baker",
+   "url": "www.BakeFriends.com",
+   "likes": 12,
+   "userId": "5c61cf7021c68107c63f32d8"
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-type: application/json
+
+{
+   "title": "baking",
+   "author": "Bak",
+   "url": "www.BakeF.com",
+   "likes": 10000
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-type: application/json
+
+{
+   "title": "kissa",
+   "author": "cat",
+   "url": "https://pixabay.com/fi/photos/kissa/",
+   "likes": 100000000
+}
+###
+POST http://localhost:3003/api/users
+Content-type: application/json
+
+{
+   "username": "siili", 
+   "name": "Silja Lain",
+   "password": "salasana"
+}
+###
+
+POST http://localhost:3003/api/users
+Content-type: application/json
+
+{
+   "username": "Alic", 
+   "name": "Silja Lain",
+   "password": "salasana"
+}
+
+###
+
+DELETE http://localhost:3003/api/blogs/5c5e2722728aba435fcc903f
+
+###
+
+PUT http://localhost:3003/api/blogs/5c5f0c9c1bd8060403b73a1f
+Content-type: application/json
+
+{
+   "title": "baking with friends",
+   "author": "B",
    "url": "www.BakeFriends.com",
    "likes": 12
 }

@@ -20,12 +20,13 @@ Content-type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNpaWxpIiwiaWQiOiI1YzYwYjAyMDliYTk1MzBkNTlmODkwOTAiLCJpYXQiOjE1NDk5MzAzNjh9.cr-Jt5EmmvsVy52kEAz8005DOwCVh6RFTmZ_h2dMLmw
 
 {
-   "title": "baking",
-   "author": "Bak",
-   "url": "www.BakeF.com",
-   "likes": 10000
+   "title": "token3",
+   "author": "Tok3",
+   "url": "www.Totem3.com",
+   "likes": 9
 }
 
 ###
@@ -43,7 +44,7 @@ POST http://localhost:3003/api/users
 Content-type: application/json
 
 {
-   "username": "siili", 
+   "username": "silja", 
    "name": "Silja Lain",
    "password": "salasana"
 }
@@ -60,7 +61,9 @@ Content-type: application/json
 
 ###
 
-DELETE http://localhost:3003/api/blogs/5c5e2722728aba435fcc903f
+DELETE http://localhost:3003/api/blogs/5c620d487e64fa0a699bfde9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNpaWxpIiwiaWQiOiI1YzYwYjAyMDliYTk1MzBkNTlmODkwOTAiLCJpYXQiOjE1NDk5MzAzNjh9.cr-Jt5EmmvsVy52kEAz8005DOwCVh6RFTmZ_h2dMLmw
+
 
 ###
 

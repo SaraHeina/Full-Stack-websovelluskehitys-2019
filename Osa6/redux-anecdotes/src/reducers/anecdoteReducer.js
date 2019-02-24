@@ -27,7 +27,7 @@ const reducer = (state = initialState, action) => {
       const changeVote = { ...anecdote, votes: anecdote.votes + 1 }
       return state.map(sta => (sta.id === id ? changeVote : sta))
     case 'ADD':
-    return [...state, action.data] //state.concat(action.data) 
+    return [...state, action.data]
     default:
       return state
   }

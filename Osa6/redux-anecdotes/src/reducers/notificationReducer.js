@@ -8,17 +8,18 @@ const notiReducer = (state = null, action) => {
     }
 }
 
-export const notificationMessage = (message) => {
-    return {
-        type: 'MESSAGE',
-        message
-    }
-}
-
-export const notificationMessageNull = () => {
-    return {
-        type: 'MESSAGE',
-        message: null
+export const notificationMessage = (message, luku) => {
+    return async dispatch => {
+        dispatch({
+            type: 'MESSAGE',
+            message
+        })
+        await setTimeout(() => { 
+            dispatch({
+                type: 'MESSAGE',
+                message: null
+            }) }, 
+            luku * 1000)
     }
 }
 

@@ -1,0 +1,79 @@
+POST http://localhost:3003/api/login
+Content-type: application/json
+
+{
+   "username": "siili",
+   "password": "salasana"
+}
+###
+POST http://localhost:3003/api/blogs
+Content-type: application/json
+
+{
+   "title": "baking with friends",
+   "author": "Baker",
+   "url": "www.BakeFriends.com",
+   "likes": 12,
+   "userId": "5c61cf7021c68107c63f32d8"
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNpaWxpIiwiaWQiOiI1YzYwYjAyMDliYTk1MzBkNTlmODkwOTAiLCJpYXQiOjE1NTAzNTIzMzh9.AB3gS6PWy_2dx38HrxxpSYlqaM2YZ_dxCPO9SvQA5BA
+
+{
+   "title": "token2",
+   "author": "Tok2",
+   "url": "www.Totem3.com",
+   "likes": 9
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-type: application/json
+
+{
+   "title": "kissa",
+   "author": "cat",
+   "url": "https://pixabay.com/fi/photos/kissa/",
+   "likes": 100000000
+}
+###
+POST http://localhost:3003/api/users
+Content-type: application/json
+
+{
+   "username": "silja", 
+   "name": "Silja Lain",
+   "password": "salasana"
+}
+###
+
+POST http://localhost:3003/api/users
+Content-type: application/json
+
+{
+   "username": "Alic", 
+   "name": "Silja Lain",
+   "password": "salasana"
+}
+
+###
+
+DELETE http://localhost:3003/api/blogs/5c620d487e64fa0a699bfde9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNpaWxpIiwiaWQiOiI1YzYwYjAyMDliYTk1MzBkNTlmODkwOTAiLCJpYXQiOjE1NDk5MzAzNjh9.cr-Jt5EmmvsVy52kEAz8005DOwCVh6RFTmZ_h2dMLmw
+
+
+###
+
+PUT http://localhost:3003/api/blogs/5c61d266aaad330840f5355a
+Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNpaWxpIiwiaWQiOiI1YzYwYjAyMDliYTk1MzBkNTlmODkwOTAiLCJpYXQiOjE1NTAzMjA1MDl9.tJYJwC4tjzrR1jzMhxIbTbR6125ep94cY-gktvXUUVM
+
+{
+   "title": "baking with friends",
+   "author": "B",
+   "url": "www.BakeFriends.com",
+   "likes": 12
+}

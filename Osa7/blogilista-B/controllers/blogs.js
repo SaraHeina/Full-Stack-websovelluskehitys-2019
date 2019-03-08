@@ -17,6 +17,23 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs.map(blog => blog.toJSON()))
 })
 
+blogsRouter.post('/:id/comments', async (request, response, next) => {
+  try {
+    const body = await Blog.findById(request.params.id)
+    /*const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }*/
+    if (body === null) {
+      return response.status(400).json({ error: 'blog not found' })
+    }
+    //console.log(request.body.comments)
+    const newBlog = await Blog.findByIdAndUpdate(request.params.id, {comments: body.comments.concat(request.body.comment)}, { new: true })
+    response.json(newBlog.toJSON())
+  } catch (exception) {
+    next(exception)
+  }
+})
 
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
@@ -84,7 +101,8 @@ blogsRouter.put('/:id', async (request, response, next) => {
       title: body.title,
       author: body.author,
       url: body.url,
-      likes: body.likes
+      likes: body.likes,
+      comments: body.comments
     }
 
     const newBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })

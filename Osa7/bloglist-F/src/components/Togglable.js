@@ -9,9 +9,6 @@ const Togglable = React.forwardRef((props, ref) => {
 
   const toggleVisibility = () => {
     setVisible(!visible)
-    props.titl.reset()
-    props.aut.reset()
-    props.ur.reset()
   }
 
   useImperativeHandle(ref, () => {

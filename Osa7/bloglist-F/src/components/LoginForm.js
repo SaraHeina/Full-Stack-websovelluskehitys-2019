@@ -1,11 +1,24 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { loginUser } from '../reducers/userReducer'
+import { connect } from 'react-redux'
+import { useField } from '../hooks'
 
-const LoginForm = ({
-    login,
-    username,
-    password
-}) => {
+const LoginForm = ({ loginUser }) => {
+
+    const username = useField('text')
+    const password = useField('password')
+
+    const login = async (event) => {
+        event.preventDefault()
+        const user = {
+            username: username.value,
+            password: password.value
+        }
+        loginUser(user)
+        username.reset()
+        password.reset()
+    }
+
     return (
         <form onSubmit={login}>
             <div>
@@ -24,15 +37,12 @@ const LoginForm = ({
                     onChange={password.onChange}
                 />
             </div>
-            <button type="submit">kirjaudu</button>
+            <button onSubmit={login}>kirjaudu</button>
         </form>
     )
 }
 
 LoginForm.propTypes = {
-    login: PropTypes.func.isRequired,
-    username: PropTypes.object.isRequired,
-    password: PropTypes.object.isRequired,
 }
 
-export default LoginForm
+export default connect(null, { loginUser })(LoginForm)

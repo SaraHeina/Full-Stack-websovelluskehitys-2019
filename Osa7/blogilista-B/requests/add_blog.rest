@@ -77,3 +77,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNpa
    "url": "www.BakeFriends.com",
    "likes": 12
 }
+
+###
+
+POST  http://localhost:3003/api/blogs/5c6864a40f0c330c1adf1ba5/comments
+Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNpaWxpIiwiaWQiOiI1YzYwYjAyMDliYTk1MzBkNTlmODkwOTAiLCJpYXQiOjE1NTE5OTg3MTl9.wjcbTIKaOYTo2rXU8kYI5yaOhR8u11hpt3KGiBUFiv8
+
+{
+   "comments": "kokeilu2"
+}

@@ -1,44 +1,56 @@
-import React, { useState } from 'react'
-import blogService from '../services/blogs'
+import React from 'react'
+import { useField } from '../hooks'
 import Remove from './Remove'
+import { connect } from 'react-redux'
+import { likeBlog, addComment } from '../reducers/blogReducer'
 
-const Blog = ({ blog, user, deletion }) => {
-  const [showDetail, setShowDetail] = useState(false)
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
+const Blog = ({ id, blogs, likeBlog, addComment }) => {
+
+  const comment = useField('text')
+  const blog = blogs.find(b => b.id === id)
+
+  if (blog === undefined) {
+    return null
   }
 
-
-  if (!showDetail) {
-    return (
-      <div style={blogStyle}>
-        <div onClick={() => setShowDetail(true)} className='onlyTitle'>
-          {blog.title} {blog.author}
-        </div>
-      </div>
-    )
-  }
+  const commentSubmission = async (event) => {
+    event.preventDefault()
+    addComment(id, comment)
+    comment.reset()
+}
 
   return (
-    <div style={blogStyle} className='detailed'>
-      <div onClick={() => setShowDetail(false)}>
-        <div>{blog.title}</div>
-        <div>{blog.url}</div>
-        <div>{blog.likes} likes
-          <button onClick={() => blogService.like(blog)}>like</button>
-        </div>
-        <div>added by {blog.author}</div>
-        <Remove
-          blog={blog}
-          user={user}
-          deletion={deletion} />
+    <div>
+      <h2>{blog.title}</h2>
+      <a href={blog.url}>{blog.url}</a>
+      <div>{blog.likes} likes
+          <button onClick={() => likeBlog(blog)}>like</button>
       </div>
+      <div>added by {blog.author}</div>
+      <Remove
+        blog={blog}
+        user={blog.user} />
+      <h3>comments</h3>
+      <form onSubmit={commentSubmission}>
+        <div>
+            <input
+            type={comment.type}
+            value={comment.value}
+            onChange={comment.onChange}
+          />
+          <button onClick={commentSubmission}>add comment</button>
+        </div>
+      </form>
+      <ul>
+        {blog.comments.map((comment, index) =>
+          <li key={index}>{comment}</li>)}
+      </ul>
     </div>
   )
 }
 
-export default Blog
+const mapStateToProps = state => ({
+  blogs: state.blogs
+})
+
+export default connect(mapStateToProps, { likeBlog, addComment })(Blog)

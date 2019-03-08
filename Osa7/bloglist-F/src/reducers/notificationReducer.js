@@ -7,21 +7,19 @@ const reducer = (state = null, action) => {
   }
 }
 
-export const setNotification = (content, seconds) => {
-  return async dispatch => {
+export const setNotification = (content, seconds, dispatch) => {
+  dispatch({
+    type: 'SET_NOTIFICATION',
+    content
+  })
+  setTimeout(() => {
     dispatch({
       type: 'SET_NOTIFICATION',
-      content
+      content: null
     })
-    await setTimeout(() => {
-      dispatch({
-        type: 'SET_NOTIFICATION',
-        content: null
-      })
-    }, seconds * 1000)
-  }
-
+  }, seconds * 1000)
 }
+
 
 
 export default reducer

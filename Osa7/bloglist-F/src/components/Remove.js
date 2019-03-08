@@ -1,15 +1,28 @@
 import React from 'react'
+import { removeBlog } from '../reducers/blogReducer'
+import { connect } from 'react-redux'
 
 
-const Remove = ({ blog, user, deletion }) => {
+const Remove = ({ blog, user, removeBlog }) => {
+
     if (!blog.user) {
-        return (<button onClick={() => deletion(blog)}>remove</button>) 
+        return (
+            <button onClick={() => {
+                removeBlog(blog)
+                window.location.reload()
+            }}>remove</button>
+        )
     }
     if (blog.user.username !== user.username) {
-        return(null)
+        return (null)
     }
-    
-    return (<button onClick={() => deletion(blog)}>remove</button>) }
 
+    return (
+        <button onClick={() => {
+            removeBlog(blog)
+            window.location.reload()
+        }}>remove</button>
+    )
+}
 
-export default Remove
+export default connect(null, { removeBlog })(Remove)

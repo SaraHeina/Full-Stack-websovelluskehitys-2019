@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const Notification = (props) => {
+const ErrorMessage = (props) => {
   const style = {
-    color: 'green',
+    color: 'red',
     background: 'lightgrey',
     fontSize: 20,
     borderStyle: 'solid',
@@ -12,18 +12,18 @@ const Notification = (props) => {
     marginBottom: 10,
   }
 
-  if (!props.notification) { return null }
+  if (!props.errorMessage) { return null }
   return (
     <div style={style}>
-      {props.notification}
+      {props.errorMessage}
     </div>
   )
 }
 
 const mapStateToProps = (state) => ({
-  notification: state.notification
+  errorMessage: state.errorMessage
 })
 
 export default connect(
   mapStateToProps
-)(Notification)
+)(ErrorMessage)

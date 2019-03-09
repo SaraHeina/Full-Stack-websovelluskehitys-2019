@@ -3,8 +3,8 @@ import thunk from 'redux-thunk'
 import notificationReducer from './reducers/notificationReducer'
 import errorMessageReducer from './reducers/errorMessageReducer'
 import blogReducer from './reducers/blogReducer'
-import userReducer from './reducers/userReducer';
-import userAllReducer from './reducers/userAllReducer';
+import userReducer from './reducers/userReducer'
+import userAllReducer from './reducers/userAllReducer'
 
 const reducer = combineReducers({
     notification: notificationReducer,

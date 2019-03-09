@@ -2,6 +2,7 @@ import React from 'react'
 import { loginUser } from '../reducers/userReducer'
 import { connect } from 'react-redux'
 import { useField } from '../hooks'
+import { Form, Button } from 'react-bootstrap'
 
 const LoginForm = ({ loginUser }) => {
 
@@ -20,25 +21,23 @@ const LoginForm = ({ loginUser }) => {
     }
 
     return (
-        <form onSubmit={login}>
-            <div>
-                käyttäjätunnus
-          <input
+        <Form onSubmit={login}>
+            <Form.Group>
+                <Form.Label>käyttäjätunnus:</Form.Label>
+                <Form.Control
                     type={username.type}
                     value={username.value}
                     onChange={username.onChange}
                 />
-            </div>
-            <div>
-                salasana
-          <input
+                <Form.Label>salasana:</Form.Label>
+                <Form.Control
                     type={password.type}
                     value={password.value}
                     onChange={password.onChange}
                 />
-            </div>
-            <button onSubmit={login}>kirjaudu</button>
-        </form>
+                <Button onClick={login}>kirjaudu</Button>
+            </Form.Group>
+        </Form>
     )
 }
 

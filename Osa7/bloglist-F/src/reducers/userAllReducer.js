@@ -12,7 +12,7 @@ const userAllReducer = (state = [], action) => {
 export const getAllUsers = () => {
     return async dispatch => {
         const content = await usersService.getAll()
-        dispatch({ type: 'GET_ALL', content})
+        dispatch({ type: 'GET_ALL', content })
     }
 }
 

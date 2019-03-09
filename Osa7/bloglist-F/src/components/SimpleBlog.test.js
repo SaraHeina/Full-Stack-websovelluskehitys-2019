@@ -21,22 +21,22 @@ test('renders title, author and likes', () => {
 })
 
 it('clicking the button 2 times calls event handler twice', async () => {
-    const sblog = {
-        title: 'render2',
-        author: 'testaaja2',
-        url: 'www.test.fi',
-        likes: 3
-    }
-  
-    const mockHandler = jest.fn()
-  
-    const { getByText } = render(
-      <SimpleBlog blog={sblog} onClick={mockHandler} />
-    )
-  
-    const button = getByText('like')
-    fireEvent.click(button)
-    fireEvent.click(button)
-  
-    expect(mockHandler.mock.calls.length).toBe(2)
-  })
+  const sblog = {
+    title: 'render2',
+    author: 'testaaja2',
+    url: 'www.test.fi',
+    likes: 3
+  }
+
+  const mockHandler = jest.fn()
+
+  const { getByText } = render(
+    <SimpleBlog blog={sblog} onClick={mockHandler} />
+  )
+
+  const button = getByText('like')
+  fireEvent.click(button)
+  fireEvent.click(button)
+
+  expect(mockHandler.mock.calls.length).toBe(2)
+})

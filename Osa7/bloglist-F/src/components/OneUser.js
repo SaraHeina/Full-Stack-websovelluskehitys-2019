@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 
 const OneUser = ({ id, users }) => {
     const user = users.find(u => u.id === id)
-    if ( user === undefined) { 
+    if (user === undefined) {
         return null
-      }
+    }
     return (
         <div>
             <h2>{user.name}</h2>

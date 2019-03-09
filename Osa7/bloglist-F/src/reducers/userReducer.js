@@ -1,6 +1,7 @@
 import loginService from '../services/login'
-import {setErrorMessage} from '../reducers/errorMessageReducer'
+import { setErrorMessage } from '../reducers/errorMessageReducer'
 import blogService from '../services/blogs'
+import { setNotification } from './notificationReducer'
 
 const userReducer = (state = null, action) => {
     switch (action.type) {
@@ -23,13 +24,14 @@ export const setUser = (user) => {
 export const loginUser = (loger) => {
     return async dispatch => {
         try {
-        const user = await loginService.login(loger)
-        blogService.setToken(user.token)
-        dispatch({
-            type: 'SET_USER',
-            user
-        })
-        window.localStorage.setItem('loggedUser', JSON.stringify(user))
+            const user = await loginService.login(loger)
+            blogService.setToken(user.token)
+            dispatch({
+                type: 'SET_USER',
+                user
+            })
+            window.localStorage.setItem('loggedUser', JSON.stringify(user))
+            setNotification(`welcome ${user.username}`, 5, dispatch)
         } catch (error) {
             setErrorMessage('käyttäjätunnus tai salasana virheellinen', 5, dispatch)
         }

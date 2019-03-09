@@ -6,14 +6,15 @@ import Togglable from './components/Togglable'
 import { initializeBlogs } from './reducers/blogReducer'
 import Notification from './components/Notification'
 import { connect } from 'react-redux'
-import ErrorMessage from './components/ErrorMessage';
+import ErrorMessage from './components/ErrorMessage'
 import BlogAll from './components/BlogAll'
 import { setUser } from './reducers/userReducer'
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
-import Users from './components/Users';
+import Users from './components/Users'
 import { getAllUsers } from './reducers/userAllReducer'
 import OneUser from './components/OneUser'
-import Blog from './components/Blog';
+import Blog from './components/Blog'
+import { Button, Navbar, Nav } from 'react-bootstrap'
 
 
 const App = ({ initializeBlogs, setUser, user, getAllUsers }) => {
@@ -38,14 +39,14 @@ const App = ({ initializeBlogs, setUser, user, getAllUsers }) => {
     window.localStorage.removeItem('loggedUser')
     setUser(null)
   }
-  
 
-  const padding = { backgroundColor: '#DCDDDF', padding: 5 }
+
+  const padding = { padding: 5 }
 
   if (user === null) {
     return (
       <Router>
-        <div>
+        <div className="container">
           <div>
             <h2>log in to application</h2>
             <ErrorMessage />
@@ -59,16 +60,24 @@ const App = ({ initializeBlogs, setUser, user, getAllUsers }) => {
   }
 
   return (
-    <div>
+    <div className="container">
       <Router>
         <div>
-          <div style={padding}>
-            <Link to="/">blogs</Link>
-            <Link style={{ paddingRight: 5, paddingLeft: 5 }} to="/users">users</Link>
-            <>{user.name} logged in</>
-            <button onClick={logout}>logout</button>
-          </div>
-          <h2>blogs</h2>
+          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link href="#" as="span">
+                  <Link style={padding} to="/">Blogs</Link>
+                </Nav.Link>
+                <Nav.Link href="#" as="span">
+                  <Link style={padding} to="/users">Users</Link>
+                </Nav.Link>
+                <Button onClick={logout}>logout</Button>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+          <h2>Blogs</h2>
           <ErrorMessage />
           <Notification />
           <Route exact path="/" render={() =>
@@ -77,7 +86,7 @@ const App = ({ initializeBlogs, setUser, user, getAllUsers }) => {
                 <h2>create new</h2>
                 <Create blogFormRef={blogFormRef} />
               </Togglable>
-              <BlogAll user={user} />
+              <BlogAll />
             </>
           } />
           <Route exact path="/users" render={() => <Users />} />

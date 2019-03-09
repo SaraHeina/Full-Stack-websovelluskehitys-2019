@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { useField } from '../hooks'
 import { create } from '../reducers/blogReducer'
+import { Form, Button } from 'react-bootstrap'
 
 const Create = ({ create, blogFormRef }) => {
 
@@ -26,33 +27,35 @@ const Create = ({ create, blogFormRef }) => {
 
     return (
         <div>
-            <form onSubmit={blogSubmission}>
-                <div>
-                    title:
-            <input
-                        type={title.type}
-                        value={title.value}
-                        onChange={title.onChange}
-                    />
-                </div>
-                <div>
-                    author:
-            <input
-                        type={author.type}
-                        value={author.value}
-                        onChange={author.onChange}
-                    />
-                </div>
-                <div>
-                    url:
-            <input
-                        type={url.type}
-                        value={url.value}
-                        onChange={url.onChange}
-                    />
-                </div>
-                <button onClick={blogSubmission}>create</button>
-            </form>
+            <Form onSubmit={blogSubmission}>
+                <Form.Group>
+                    <div>
+                        title:
+                        <Form.Control
+                            type={title.type}
+                            value={title.value}
+                            onChange={title.onChange}
+                        />
+                    </div>
+                    <div>
+                        author:
+                        <Form.Control
+                            type={author.type}
+                            value={author.value}
+                            onChange={author.onChange}
+                        />
+                    </div>
+                    <div>
+                        url:
+                        <Form.Control
+                            type={url.type}
+                            value={url.value}
+                            onChange={url.onChange}
+                        />
+                    </div>
+                    <Button onClick={blogSubmission}>create</Button>
+                </Form.Group>
+            </Form>
         </div>
     )
 }

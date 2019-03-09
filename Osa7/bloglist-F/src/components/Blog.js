@@ -3,6 +3,7 @@ import { useField } from '../hooks'
 import Remove from './Remove'
 import { connect } from 'react-redux'
 import { likeBlog, addComment } from '../reducers/blogReducer'
+import { Form, Button } from 'react-bootstrap'
 
 const Blog = ({ id, blogs, likeBlog, addComment }) => {
 
@@ -27,20 +28,22 @@ const Blog = ({ id, blogs, likeBlog, addComment }) => {
           <button onClick={() => likeBlog(blog)}>like</button>
       </div>
       <div>added by {blog.author}</div>
+      <br/>
       <Remove
         blog={blog}
         user={blog.user} />
       <h3>comments</h3>
-      <form onSubmit={commentSubmission}>
+      <Form onSubmit={commentSubmission}>
         <div>
-            <input
+            <Form.Control
             type={comment.type}
             value={comment.value}
             onChange={comment.onChange}
           />
-          <button onClick={commentSubmission}>add comment</button>
+          <Button onClick={commentSubmission}>add comment</Button>
         </div>
-      </form>
+      </Form>
+      <br/>
       <ul>
         {blog.comments.map((comment, index) =>
           <li key={index}>{comment}</li>)}

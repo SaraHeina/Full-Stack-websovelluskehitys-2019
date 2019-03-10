@@ -32,6 +32,7 @@ const Create = ({ create, blogFormRef }) => {
                     <div>
                         title:
                         <Form.Control
+                            id='title'
                             type={title.type}
                             value={title.value}
                             onChange={title.onChange}
@@ -40,6 +41,7 @@ const Create = ({ create, blogFormRef }) => {
                     <div>
                         author:
                         <Form.Control
+                            id='author'
                             type={author.type}
                             value={author.value}
                             onChange={author.onChange}
@@ -48,12 +50,13 @@ const Create = ({ create, blogFormRef }) => {
                     <div>
                         url:
                         <Form.Control
+                            id='url'
                             type={url.type}
                             value={url.value}
                             onChange={url.onChange}
                         />
                     </div>
-                    <Button onClick={blogSubmission}>create</Button>
+                    <Button onClick={blogSubmission}>Save</Button>
                 </Form.Group>
             </Form>
         </div>

@@ -36,6 +36,7 @@ const Blog = ({ id, blogs, likeBlog, addComment }) => {
       <Form onSubmit={commentSubmission}>
         <div>
             <Form.Control
+            id='comment'
             type={comment.type}
             value={comment.value}
             onChange={comment.onChange}

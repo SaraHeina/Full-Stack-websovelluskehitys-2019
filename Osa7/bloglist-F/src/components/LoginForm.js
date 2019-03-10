@@ -25,12 +25,14 @@ const LoginForm = ({ loginUser }) => {
             <Form.Group>
                 <Form.Label>käyttäjätunnus:</Form.Label>
                 <Form.Control
+                    id='username'
                     type={username.type}
                     value={username.value}
                     onChange={username.onChange}
                 />
                 <Form.Label>salasana:</Form.Label>
                 <Form.Control
+                    id='password'
                     type={password.type}
                     value={password.value}
                     onChange={password.onChange}

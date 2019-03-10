@@ -16,7 +16,7 @@ const BlogAll = ({ blogs }) => {
                     {blogs.sort((a, b) => b.likes - a.likes)
                         .map(blog => <tr key={blog.id}>
                             <td>
-                                <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                                <Link id="blog-element" to={`/blogs/${blog.id}`}>{blog.title}</Link>
                             </td>
                             <td>{blog.likes}</td>
                         </tr>

@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
-import { useApolloClient } from 'react-apollo-hooks'
+import Select from 'react-select'
 
 const Authors = (props) => {
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
+  const [selectedOption, setSelectedOption] = useState('')
 
   if (!props.show) {
     return null
+  }
+
+  const handleChange = (target) => {
+    setName(target.value)
+    setSelectedOption(target)
   }
 
   const submit = async (e) => {
@@ -18,9 +24,8 @@ const Authors = (props) => {
 
     setName('')
     setBorn('')
+    setSelectedOption('')
   }
-
-  const client = useApolloClient()
 
   const { data } = props.result
   const authors = data.allAuthors
@@ -28,6 +33,9 @@ const Authors = (props) => {
   if (props.result.loading) {
     return <div>loading...</div>
   }
+  
+  const options = authors.map(a => ({ value: a.name, label: a.name }))
+
 
   return (
     <div>
@@ -58,9 +66,10 @@ const Authors = (props) => {
         <form onSubmit={submit}>
           <div>
             name
-          <input
-              value={name}
-              onChange={({ target }) => setName(target.value)}
+          <Select
+              value={selectedOption}
+              onChange={handleChange}
+              options={options}
             />
           </div>
           <div>
@@ -74,6 +83,7 @@ const Authors = (props) => {
           <button type='submit'>update author</button>
         </form>
       </div>
+
 
     </div>
   )

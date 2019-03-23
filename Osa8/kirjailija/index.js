@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { ApolloServer, gql, UserInputError, AuthenticationError } = require('apollo-server')
 const mongoose = require('mongoose')
 const Author = require('./models/author')
@@ -7,9 +8,17 @@ const User = require('./models/user')
 
 const uuid = require('uuid/v1')
 
-
+/*if ( process.argv.length<3 ) {
+    console.log('give password as argument')
+    process.exit(1)
+  }
+  const passwordd = process.argv[2]*/
 mongoose.set('useFindAndModify', false)
-const MONGODB_URI = 'mongodb+srv://fullstack:fullstack@cluster0-ostce.mongodb.net/graphql?retryWrites=true'
+const MONGODB_URI = process.env.MONGODB_URI//`mongodb+srv://fullstack:${passwordd}@cluster0-jrwrf.mongodb.net/book-app?retryWrites=true`
+
+//const MONGODB_URI = 'mongodb+srv://fullstack:fullstack@cluster0-ostce.mongodb.net/graphql?retryWrites=true'
+//process.env.MONGODB_URI
+//mongodb+srv://fullstack:<password>@cluster0-jrwrf.mongodb.net/test?retryWrites=true
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
     .then(() => {
@@ -19,7 +28,7 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
         console.log('error connection to MongoDB:', error.message)
     })
 
-let authors = [
+/*let authors = [
     {
         name: 'Robert Martin',
         id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
@@ -43,14 +52,14 @@ let authors = [
         name: 'Sandi Metz', // birthyear not known
         id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
     },
-]
+]*/
 
 /*
  * Saattaisi olla järkevämpää assosioida kirja ja sen tekijä tallettamalla kirjan yhteyteen tekijän nimen sijaan tekijän id
  * Yksinkertaisuuden vuoksi tallennamme kuitenkin kirjan yhteyteen tekijän nimen
 */
 
-let books = [
+/*let books = [
     {
         title: 'Clean Code',
         published: 2008,
@@ -100,7 +109,7 @@ let books = [
         id: "afa5de04-344d-11e9-a414-719c6709cf3e",
         genres: ['classic', 'revolution']
     },
-]
+]*/
 
 const typeDefs = gql`
   type User {
@@ -113,19 +122,19 @@ const typeDefs = gql`
     value: String!
   }
 
+  type Author {
+    name: String!
+    id: ID!
+    born: Int
+    bookCount: Int!
+  }
+
   type Book {
     title: String!
     published: Int!
     author: Author!
     genres: [String!]!
     id: ID!
-  }
-
-  type Author {
-    name: String!
-    id: ID!
-    born: Int
-    bookCount: Int!
   }
 
   type Query {
@@ -168,8 +177,8 @@ const resolvers = {
             if (args.author) {
                 var author = await Author.findOne({ name: args.author })
             }
-            const byAuthor = args.author ? Book.find({ author: author }) : Book.find({})
-            const byGenre = args.genre ? Book.find({ genres: { $in: [args.genre] } }) : byAuthor
+            const byAuthor = args.author ? Book.find({ author: author }).populate('author') : Book.find({}).populate('author')
+            const byGenre = args.genre ? Book.find({ genres: { $in: [args.genre] } }).populate('author') : byAuthor
             //const byAuthor = args.author ? books.filter(book => book.author === args.author) : books
             //const byGenre = args.genre ? byAuthor.filter(book => book.genres.includes(args.genre)) : byAuthor
             return byGenre
@@ -230,7 +239,7 @@ const resolvers = {
         },
 
         createUser: (root, args) => {
-            const user = new User({ username: args.username })
+            const user = new User({ username: args.username, favoriteGenre: args.favoriteGenre })
 
             return user.save()
                 .catch(error => {

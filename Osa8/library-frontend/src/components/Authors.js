@@ -17,10 +17,12 @@ const Authors = (props) => {
 
   const submit = async (e) => {
     e.preventDefault()
-
+try{
     await props.editAuthor({
-      variables: { name, setBornTo: parseInt(born) }
-    })
+      variables: { name, setBornTo: parseInt(born) } })
+    } catch (error) {
+      props.handleError(error.graphQLErrors[0].message)
+    }
 
     setName('')
     setBorn('')

@@ -5,20 +5,14 @@ const Author = require('./models/author')
 const Book = require('./models/book')
 const jwt = require('jsonwebtoken')
 const User = require('./models/user')
-
+const { PubSub } = require('apollo-server')
+const pubsub = new PubSub()
 const uuid = require('uuid/v1')
 
-/*if ( process.argv.length<3 ) {
-    console.log('give password as argument')
-    process.exit(1)
-  }
-  const passwordd = process.argv[2]*/
-mongoose.set('useFindAndModify', false)
-const MONGODB_URI = process.env.MONGODB_URI//`mongodb+srv://fullstack:${passwordd}@cluster0-jrwrf.mongodb.net/book-app?retryWrites=true`
 
-//const MONGODB_URI = 'mongodb+srv://fullstack:fullstack@cluster0-ostce.mongodb.net/graphql?retryWrites=true'
-//process.env.MONGODB_URI
-//mongodb+srv://fullstack:<password>@cluster0-jrwrf.mongodb.net/test?retryWrites=true
+mongoose.set('useFindAndModify', false)
+const MONGODB_URI = process.env.MONGODB_URI
+
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
     .then(() => {
@@ -27,89 +21,6 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
     .catch((error) => {
         console.log('error connection to MongoDB:', error.message)
     })
-
-/*let authors = [
-    {
-        name: 'Robert Martin',
-        id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
-        born: 1952,
-    },
-    {
-        name: 'Martin Fowler',
-        id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
-        born: 1963
-    },
-    {
-        name: 'Fyodor Dostoevsky',
-        id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
-        born: 1821
-    },
-    {
-        name: 'Joshua Kerievsky', // birthyear not known
-        id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
-    },
-    {
-        name: 'Sandi Metz', // birthyear not known
-        id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
-    },
-]*/
-
-/*
- * Saattaisi olla järkevämpää assosioida kirja ja sen tekijä tallettamalla kirjan yhteyteen tekijän nimen sijaan tekijän id
- * Yksinkertaisuuden vuoksi tallennamme kuitenkin kirjan yhteyteen tekijän nimen
-*/
-
-/*let books = [
-    {
-        title: 'Clean Code',
-        published: 2008,
-        author: 'Robert Martin',
-        id: "afa5b6f4-344d-11e9-a414-719c6709cf3e",
-        genres: ['refactoring']
-    },
-    {
-        title: 'Agile software development',
-        published: 2002,
-        author: 'Robert Martin',
-        id: "afa5b6f5-344d-11e9-a414-719c6709cf3e",
-        genres: ['agile', 'patterns', 'design']
-    },
-    {
-        title: 'Refactoring, edition 2',
-        published: 2018,
-        author: 'Martin Fowler',
-        id: "afa5de00-344d-11e9-a414-719c6709cf3e",
-        genres: ['refactoring']
-    },
-    {
-        title: 'Refactoring to patterns',
-        published: 2008,
-        author: 'Joshua Kerievsky',
-        id: "afa5de01-344d-11e9-a414-719c6709cf3e",
-        genres: ['refactoring', 'patterns']
-    },
-    {
-        title: 'Practical Object-Oriented Design, An Agile Primer Using Ruby',
-        published: 2012,
-        author: 'Sandi Metz',
-        id: "afa5de02-344d-11e9-a414-719c6709cf3e",
-        genres: ['refactoring', 'design']
-    },
-    {
-        title: 'Crime and punishment',
-        published: 1866,
-        author: 'Fyodor Dostoevsky',
-        id: "afa5de03-344d-11e9-a414-719c6709cf3e",
-        genres: ['classic', 'crime']
-    },
-    {
-        title: 'The Demon ',
-        published: 1872,
-        author: 'Fyodor Dostoevsky',
-        id: "afa5de04-344d-11e9-a414-719c6709cf3e",
-        genres: ['classic', 'revolution']
-    },
-]*/
 
 const typeDefs = gql`
   type User {
@@ -165,6 +76,10 @@ const typeDefs = gql`
         password: String!
     ): Token
   }
+
+  type Subscription {
+    bookAdded: Book
+  } 
 `
 
 const JWT_SECRET = 'NEED_HERE_A_SECRET_KEY'
@@ -179,8 +94,6 @@ const resolvers = {
             }
             const byAuthor = args.author ? Book.find({ author: author }).populate('author') : Book.find({}).populate('author')
             const byGenre = args.genre ? Book.find({ genres: { $in: [args.genre] } }).populate('author') : byAuthor
-            //const byAuthor = args.author ? books.filter(book => book.author === args.author) : books
-            //const byGenre = args.genre ? byAuthor.filter(book => book.genres.includes(args.genre)) : byAuthor
             return byGenre
         },
         allAuthors: () => Author.find({}),
@@ -217,6 +130,7 @@ const resolvers = {
                     invalidArgs: args,
                 })
             }
+            pubsub.publish('BOOK_ADDED', { bookAdded: book })
             return book
         },
 
@@ -263,7 +177,12 @@ const resolvers = {
 
             return { value: jwt.sign(userForToken, JWT_SECRET) }
         }
-    }
+    },
+    Subscription: {
+        bookAdded: {
+            subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
+        },
+    },
 }
 
 const server = new ApolloServer({
